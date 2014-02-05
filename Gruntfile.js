@@ -1,129 +1,133 @@
-/*
- * This is an WWW public site for Duke Energy Gruntfile.
- *
- * THIS BUILD FILE WILL NOT WORK. It is referencing paths that probably
- * do not exist on your machine. Just use it as a guide.
- *
- */
+var fs = require('fs'),
+  _ = require('underscore'),
 
+  // function userServer
+  userServer = function() {
+
+    // check for directories in volumes
+    var dirs = fs.readdirSync('/Volumes'), servers = [], user = '';
+    
+    // if server have ".com" add servers array
+    _.each(dirs, function(dir, index) {
+      if( dir.indexOf('.com') > -1 ) servers.push(dir);
+    });
+
+    // if servers array is larger then 1
+    if( servers.length > 1 ) {
+      user += '{';
+        _.each(servers, function(server, index) { user += server + ', '; });
+      user += '}';
+    } else if ( servers.length == 1 ) {
+      user = servers[0];
+    }
+
+    // return user
+    return user;
+  }
+
+// this page should export a function
 module.exports = function(grunt) {
 
-  // By default, Grunt doesn't load all your tasks,
-  // if "load-grunt-tasks" wasn't required you would have to
-  // individually add every tasks from your Gruntfile which
-  // will suck when we have alot
+  // loading all package.json files
   require('load-grunt-tasks')(grunt);
 
-  // Inside of the initConfig {object} is where you initiate
-  // each tasks and define it's options. I like to look at it
-  // as a huge Jquery Plugin if that helps any
+  // Creating initial grunt config
   grunt.initConfig({
 
-    // Watches files in the files {array} | It will then run any
-    // tasks in the array below
+    // Run userServer and assign to
+    // user property
+    user: userServer(),
+
+    // Watch config
     watch: {
+
+      // Watching scripts
       scripts: {
-        files: ['Gruntfile.js', '../includes/JS/main.js'],
-        tasks: ['jshint', 'uglify', 'csslint', 'cssmin']
-       }
+        files: [
+          'Gruntfile.js',
+          '/Volumes/<%= user %>/*.js',
+          '/Volumes/<%= user %>/includes/*.js',
+          '/Volumes/<%= user %>/includes/**/*.js',
+          '/Volumes/<%= user %>/_assets/apps/**/js/*.js',
+          '/Volumes/<%= user %>/_assets/js/*.js',
+          '/Volumes/<%= user %>/_assets/js/**/*.js'
+        ],
+        tasks: ['jshint'],
+        options: {
+          nospawn: true,
+        }
+      },
+
+      // Watching sass files
+      sass: {
+        files: [ '/Volumes/<%= user %>/includes/SASS/*.scss' ],
+        tasks: ['compass']
+      }
+
     },
 
-    // This is JSHint, a tool that helps to detect errors and potential
-    // problems in your JavaScript code.
+    // Jshint init configuration
     jshint: {
       options: {
         force: true
       },
-
-      // Logs errors with pages in the terminal
       log: {
         options: {
           reporter: require('jshint-stylish')
-        },
-        src: ['Gruntfile.js', '../includes/JS/lib']
-      },
-
-      // Logs errors with pages in the jshint/logs
-      logFile: {
-        options: {
-          reporter: 'jslint',
-          reporterOutput: 'logs/jshint/log-<%= grunt.template.today("yyyy-mm-dd") %>.xml'
-        },
-        src: ['Gruntfile.js', '../includes/JS/lib']
+        }
       }
     },
 
-    // This is Uglify, a tool that helps to minify
-    // our javascript files
+    // Uglify javascript into common.js
     uglify: {
-
-      // Production
       compress: {
         files: {
-          '../includes/JS/common.js': [
-            '../includes/js/jquery.js',
-            '../includes/js/jquery.tools.js',
-            '../includes/js/jquery.ba-postmessage.min.js',
-            '../includes/JS/main.js',
-            '../includes/JS/lib/deux/*.js'
+          '/Volumes/<%= user %>/includes/JS/common.js': [
+            '/Volumes/<%= user %>/includes/js/jquery.js',
+            '/Volumes/<%= user %>/includes/js/jquery.tools.js',
+            '/Volumes/<%= user %>/includes/js/jquery.ba-postmessage.min.js',
+            '/Volumes/<%= user %>/includes/JS/main.js',
+            '/Volumes/<%= user %>/includes/JS/lib/deux/*.js'
           ]
         },
         options: {
           mangle: false
         }
-
       },
-
-      // Development
       uncompress: {
         files: {
-          '../includes/JS/common-beautify.js': [
-            '../includes/js/jquery.js',
-            '../includes/js/jquery.tools.js',
-            '../includes/js/jquery.ba-postmessage.min.js',
-            '../includes/JS/main.js',
-            '../includes/JS/lib/deux/*.js'
+          '/Volumes/<%= user %>/includes/JS/common-beautify.js': [
+            '/Volumes/<%= user %>/includes/js/jquery.js',
+            '/Volumes/<%= user %>/includes/js/jquery.tools.js',
+            '/Volumes/<%= user %>/includes/js/jquery.ba-postmessage.min.js',
+            '/Volumes/<%= user %>/includes/JS/main.js',
+            '/Volumes/<%= user %>/includes/JS/lib/deux/*.js'
           ]
         },
         options: {
           mangle: false,
-          beautify: true // this value makes it uncompressed
+          beautify: true
         }
       }
     },
 
-
-    // This is CSSLint, a tool that helps to detect errors and potential
-    // problems in your JavaScript code.
-    csslint: {
-      options: {
-        force: true,
-        import: false
-      },
-      lax: {
-        src: ['../includes/CSS/deux/*.css']
-      }
-    },
-
-    // This is cssmin, a tool that helps to minify
-    // our css files
-    cssmin: {
-      default: {
-        files: {
-          '../includes/CSS/default.css': [
-            '../includes/CSS/deux/reset.css',
-            '../includes/CSS/deux/*.css'
-          ]
+    // Compass configuration
+    compass: {
+      compress: {
+        options: {
+          outputStyle: 'compressed',
+          sassDir: '/Volumes/<%= user %>/includes/SASS',
+          specify: '/Volumes/<%= user %>/includes/SASS/default.scss',
+          cssDir: '/Volumes/<%= user %>/includes/CSS'
         }
       }
     },
 
-    // Replaces reddot images with the proper format to be
-    // added to the templates
+    // String replace
     'string-replace': {
       single_file: {
         files: {
-          '../includes/CSS/default.reddot.css': '../includes/CSS/default.css'
+          '/Volumes/<%= user %>/includes/CSS/default.reddot.css': '/Volumes/<%= user %>/includes/CSS/default.css'
         },
         options: {
           replacements: [
@@ -155,7 +159,59 @@ module.exports = function(grunt) {
         }
       }
     }
+  });
 
+  grunt.event.on('watch', function(action, filepath) {
+    grunt.config(['jshint', 'log'], {
+      options: {
+        reporter: require('jshint-stylish')
+      },
+      src: [filepath]
+    });
+  });
+
+  grunt.registerTask('review', 'JShint this javascript file', function(filepath) {
+    grunt.config(['jshint', 'log'], {
+      options: {
+        reporter: require('jshint-stylish')
+      },
+      src: [filepath]
+    });
+    grunt.task.run('jshint:log');
+  });
+
+  grunt.registerTask('compress', 'Use uglify to compress javascript files', function(server) {
+    grunt.config('server', server);
+    grunt.config(['uglify', 'compress'], {
+      files: {
+        '/Volumes/<%= server %>/includes/JS/common.js': [
+          '/Volumes/<%= server %>/includes/js/jquery.js',
+          '/Volumes/<%= server %>/includes/js/jquery.tools.js',
+          '/Volumes/<%= server %>/includes/js/jquery.ba-postmessage.min.js',
+          '/Volumes/<%= server %>/includes/JS/main.js',
+          '/Volumes/<%= server %>/includes/JS/lib/deux/*.js'
+        ]
+      },
+      options: {
+        mangle: false
+      }
+    });
+    grunt.config(['uglify', 'uncompress'], {
+      files: {
+        '/Volumes/<%= server %>/includes/JS/common-beautify.js': [
+          '/Volumes/<%= server %>/includes/js/jquery.js',
+          '/Volumes/<%= server %>/includes/js/jquery.tools.js',
+          '/Volumes/<%= server %>/includes/js/jquery.ba-postmessage.min.js',
+          '/Volumes/<%= server %>/includes/JS/main.js',
+          '/Volumes/<%= server %>/includes/JS/lib/deux/*.js'
+        ]
+      },
+      options: {
+        mangle: false,
+        beautify: true
+      }
+    });
+    grunt.task.run('uglify');
   });
 
 };
