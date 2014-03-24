@@ -63,7 +63,8 @@ module.exports = function (grunt) {
 					]
 				},
 				options: {
-					mangle: false
+					mangle: false,
+					sourceMap: true
 				}
 			}
 		},
@@ -158,5 +159,4 @@ module.exports = function (grunt) {
 	} else if (grunt.config('servers').length == 0) {
 		grunt.fail.fatal("No connected servers to work with. Please connect to the servers and try again.");
 	}
-	grunt.log.write("\x1B[1A");
 };
