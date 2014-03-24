@@ -68,6 +68,28 @@ module.exports = function (grunt) {
 			}
 		},
 
+		'string-replace': {
+			reddotParsing: {
+				files: {
+					'<%= workingPath() %>/includes/CSS/default.reddot.css': '<%= workingPath() %>/includes/CSS/default.css'
+				},
+				options: {
+					replacements: [{
+						pattern: /url\(["']?.*?([^\/]*\.(jpg|png|gif))["']?\)/g,
+
+						replacement: function (match, filename, extension, offset, string) {
+							var replacement;
+
+							// if the format is already correct, don't modify it
+							if (/fonts\/flex-slider-icon|^<%.*%>$/.test(match)) return match;
+
+							return '<% ' + filename.replace(/[\-\.]/g, '_') + ' %>';
+						}
+					}]
+				}
+			}
+		},
+
 		watch: {
 			scripts: {
 				files: [ '<%= jshint.all.src %>'],
@@ -93,6 +115,7 @@ module.exports = function (grunt) {
 	grunt.config('prompt', {
 		serverPrompt: {
 			options: {
+				gruntLogHeader: false,
 				questions: [{
 					config: 'servers',
 					type: 'checkbox',
@@ -127,8 +150,13 @@ module.exports = function (grunt) {
 		//grunt.log.write(grunt.template.process('<%= workingPath() %>'));
 	});
 
-	grunt.registerTask('default', ['compass:compress', 'uglify:compress']);
+	grunt.registerTask('default', ['compass:compress', 'uglify:compress', 'string-replace']);
 
 	/*Select server after setup*/
-	grunt.task.run("prompt:serverPrompt");
+	if (grunt.config('servers').length > 1) {
+		grunt.task.run("prompt:serverPrompt");
+	} else if (grunt.config('servers').length == 0) {
+		grunt.fail.fatal("No connected servers to work with. Please connect to the servers and try again.");
+	}
+	grunt.log.write("\x1B[1A");
 };
