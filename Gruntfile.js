@@ -1,217 +1,134 @@
-var fs = require('fs'),
-  _ = require('underscore'),
+module.exports = function (grunt) {
 
-  // function userServer
-  userServer = function() {
+	// load all grunt-task plugins
+	require('load-grunt-tasks')(grunt);
 
-    // check for directories in volumes
-    var dirs = fs.readdirSync('/Volumes'), servers = [], user = '';
-    
-    // if server have ".com" add servers array
-    _.each(dirs, function(dir, index) {
-      if( dir.indexOf('.com') > -1 ) servers.push(dir);
-    });
+	grunt.initConfig({
+		pkg: grunt.file.readJSON('package.json'),
+		servers: grunt.file.expand({cwd: '/Volumes'}, "*.com"),
+		workingPath: function () {
+			var servers = grunt.config('servers');
+			return '/Volumes/' + (
+						servers.length > 1 ?
+							'{' + servers.join(', ') + '}' :
+							servers[0]
+					);
+		},
 
-    // if servers array is larger then 1
-    if( servers.length > 1 ) {
-      user += '{';
-        _.each(servers, function(server, index) { user += server + ', '; });
-      user += '}';
-    } else if ( servers.length == 1 ) {
-      user = servers[0];
-    }
+		jshint: {
+			all: {
+				src: [
+					'<%= workingPath() %>/*.js',
+					'<%= workingPath() %>/includes/*.js',
+					'<%= workingPath() %>/includes/**/*.js',
+					'<%= workingPath() %>/_assets/apps/**/js/*.js',
+					'<%= workingPath() %>/_assets/js/*.js',
+					'<%= workingPath() %>/_assets/js/**/*.js',
 
-    // return user
-    return user;
-  }
+					//Excludes
+					'!<%= workingPath() %>/includes/JS/common.js',
 
-// this page should export a function
-module.exports = function(grunt) {
+				],
+				options: {
 
-  // loading all package.json files
-  require('load-grunt-tasks')(grunt);
+				}
+			},
+			single: {
+				src: 'Gruntfile.js',
+				options: {
 
-  // Creating initial grunt config
-  grunt.initConfig({
+				}
+			}
+		},
 
-    // Run userServer and assign to
-    // user property
-    user: userServer(),
+		compass: {
+			compress: {
+				options: {
+					outputStyle: 'compressed',
+					sassDir: '<%= workingPath() %>/_assets/scss/',
+					cssDir: '<%= workingPath() %>/_assets/css/'
+				}
+			}
+		},
 
-    // Watch config
-    watch: {
+		uglify: {
+			compress: {
+				files: {
+					'<%= workingPath() %>/includes/JS/common.js': [
+						'<%= workingPath() %>/includes/js/jquery.js',
+						'<%= workingPath() %>/includes/js/jquery.tools.js',
+						'<%= workingPath() %>/includes/js/jquery.ba-postmessage.min.js',
+						'<%= workingPath() %>/includes/JS/main.js',
+						'<%= workingPath() %>/includes/JS/lib/deux/*.js'
+					]
+				},
+				options: {
+					mangle: false
+				}
+			}
+		},
 
-      // Watching scripts
-      scripts: {
-        files: [
-          'Gruntfile.js',
-          '/Volumes/<%= user %>/*.js',
-          '/Volumes/<%= user %>/includes/*.js',
-          '/Volumes/<%= user %>/includes/**/*.js',
-          '/Volumes/<%= user %>/_assets/apps/**/js/*.js',
-          '/Volumes/<%= user %>/_assets/js/*.js',
-          '/Volumes/<%= user %>/_assets/js/**/*.js'
-        ],
-        tasks: ['jshint'],
-        options: {
-          nospawn: true,
-        }
-      },
+		watch: {
+			scripts: {
+				files: [ '<%= jshint.all.src %>'],
+				tasks: ['jshint:single', 'uglify:compress'],
+				options: {
+					spawn: false
+				}
+			},
+			sass: {
+				files: [
+					'<%= workingPath() %>/_assets/scss/*.scss',
+					//Excludes
+					'!<%= workingPath() %>/_assets/scss/_*.scss'
+				],
+				tasks: ['compass'],
+				options: {
+					spawn: false
+				}
+			}
+		}
+	});
+	//prompt relies on grunt.servers, so it has to come seperate
+	grunt.config('prompt', {
+		serverPrompt: {
+			options: {
+				questions: [{
+					config: 'servers',
+					type: 'checkbox',
+					message: 'Choose the server(s) to work with:',
+					default: '-- no servers connected --',
+					choices: grunt.config('servers').map(function (server) { return {name: server}; }),
+					when: function () {
+						return grunt.config('servers').length > 1;
+					}
+				}]
+			}
+		}
+	});
 
-      // Watching sass files
-      sass: {
-        files: [ '/Volumes/<%= user %>/includes/SASS/*.scss' ],
-        tasks: ['compass']
-      }
+	//Turn off the "Running 'taskname' task" headers
+	//grunt.log.header = function () {};
 
-    },
+	// events
+	grunt.event.on('watch', function (action, filepath) {
+		var sass = {};
+		sass[filepath.replace(/scss/g, 'css')] = filepath;
 
-    // Jshint init configuration
-    jshint: {
-      options: {
-        force: true
-      },
-      log: {
-        options: {
-          reporter: require('jshint-stylish')
-        }
-      }
-    },
+		grunt.config('jshint.single.src', filepath);
+		grunt.config('sass.single.files', sass);
+	});
 
-    // Uglify javascript into common.js
-    uglify: {
-      compress: {
-        files: {
-          '/Volumes/<%= user %>/includes/JS/common.js': [
-            '/Volumes/<%= user %>/includes/js/jquery.js',
-            '/Volumes/<%= user %>/includes/js/jquery.tools.js',
-            '/Volumes/<%= user %>/includes/js/jquery.ba-postmessage.min.js',
-            '/Volumes/<%= user %>/includes/JS/main.js',
-            '/Volumes/<%= user %>/includes/JS/lib/deux/*.js'
-          ]
-        },
-        options: {
-          mangle: false
-        }
-      },
-      uncompress: {
-        files: {
-          '/Volumes/<%= user %>/includes/JS/common-beautify.js': [
-            '/Volumes/<%= user %>/includes/js/jquery.js',
-            '/Volumes/<%= user %>/includes/js/jquery.tools.js',
-            '/Volumes/<%= user %>/includes/js/jquery.ba-postmessage.min.js',
-            '/Volumes/<%= user %>/includes/JS/main.js',
-            '/Volumes/<%= user %>/includes/JS/lib/deux/*.js'
-          ]
-        },
-        options: {
-          mangle: false,
-          beautify: true
-        }
-      }
-    },
+	/* grunt tasks */
+	grunt.registerTask('review', ['jshint:all']);
 
-    // Compass configuration
-    compass: {
-      compress: {
-        options: {
-          outputStyle: 'compressed',
-          sassDir: '/Volumes/<%= user %>/includes/SASS',
-          specify: '/Volumes/<%= user %>/includes/SASS/default.scss',
-          cssDir: '/Volumes/<%= user %>/includes/CSS'
-        }
-      }
-    },
+	grunt.registerTask('debug', function () {
+		//grunt.log.write(JSON.stringify(grunt.file.expand(grunt.config('workingPath')() + '/**/*.js')));
+		//grunt.log.write(grunt.template.process('<%= workingPath() %>'));
+	});
 
-    // String replace
-    'string-replace': {
-      single_file: {
-        files: {
-          '/Volumes/<%= user %>/includes/CSS/default.reddot.css': '/Volumes/<%= user %>/includes/CSS/default.css'
-        },
-        options: {
-          replacements: [
-            {
-              pattern: /url\((.*?)\)/g,
+	grunt.registerTask('default', ['compass:compress', 'uglify:compress']);
 
-              replacement: function(match, p1, offset, string) {
-
-                // create replacement variable
-                var replacement;
-
-                // if any of these extensions exist
-                if(match.indexOf('.jpg') > -1 || match.indexOf('.png') > -1 || match.indexOf('.gif') > -1) {
-
-                  // return match
-                  if(match.indexOf('fonts/flexslider-icon') > -1) return match;
-                  if(match.indexOf('<%') > -1 && match.indexOf('%>') > -1) return match;
-
-                  // parse match into format for reddot
-                  replacement = match.substring(match.lastIndexOf('/'));
-                  replacement = replacement.replace('/', '<%').replace(')', '%>');
-                  replacement = replacement.replace(/\-/g,'_');
-                  replacement = replacement.replace(/\./g,'_');
-                  return replacement;
-                }
-              }
-            }
-          ]
-        }
-      }
-    }
-  });
-
-  grunt.event.on('watch', function(action, filepath) {
-    grunt.config(['jshint', 'log'], {
-      options: {
-        reporter: require('jshint-stylish')
-      },
-      src: [filepath]
-    });
-  });
-
-  grunt.registerTask('review', 'JShint this javascript file', function(filepath) {
-    grunt.config(['jshint', 'log'], {
-      options: {
-        reporter: require('jshint-stylish')
-      },
-      src: [filepath]
-    });
-    grunt.task.run('jshint:log');
-  });
-
-  grunt.registerTask('compress', 'Use uglify to compress javascript files', function(server) {
-    grunt.config('server', server);
-    grunt.config(['uglify', 'compress'], {
-      files: {
-        '/Volumes/<%= server %>/includes/JS/common.js': [
-          '/Volumes/<%= server %>/includes/js/jquery.js',
-          '/Volumes/<%= server %>/includes/js/jquery.tools.js',
-          '/Volumes/<%= server %>/includes/js/jquery.ba-postmessage.min.js',
-          '/Volumes/<%= server %>/includes/JS/main.js',
-          '/Volumes/<%= server %>/includes/JS/lib/deux/*.js'
-        ]
-      },
-      options: {
-        mangle: false
-      }
-    });
-    grunt.config(['uglify', 'uncompress'], {
-      files: {
-        '/Volumes/<%= server %>/includes/JS/common-beautify.js': [
-          '/Volumes/<%= server %>/includes/js/jquery.js',
-          '/Volumes/<%= server %>/includes/js/jquery.tools.js',
-          '/Volumes/<%= server %>/includes/js/jquery.ba-postmessage.min.js',
-          '/Volumes/<%= server %>/includes/JS/main.js',
-          '/Volumes/<%= server %>/includes/JS/lib/deux/*.js'
-        ]
-      },
-      options: {
-        mangle: false,
-        beautify: true
-      }
-    });
-    grunt.task.run('uglify');
-  });
-
+	/*Select server after setup*/
+	grunt.task.run("prompt:serverPrompt");
 };
