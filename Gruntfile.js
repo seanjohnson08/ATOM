@@ -15,6 +15,23 @@ module.exports = function (grunt) {
 					);
 		},
 
+		compass: {
+			assets: {
+				options: {
+					outputStyle: 'compressed',
+					sassDir: '<%= workingPath() %>/_assets/scss/',
+					cssDir: '<%= workingPath() %>/_assets/css/'
+				}
+			},
+			includes: {
+				options: {
+					outputStyle: 'compressed',
+					sassDir: '<%= workingPath() %>/includes/SASS/',
+					cssDir: '<%= workingPath() %>/includes/CSS/'
+				}
+			}
+		},
+
 		jshint: {
 			all: {
 				src: [
@@ -41,27 +58,20 @@ module.exports = function (grunt) {
 			}
 		},
 
-		compass: {
-			compress: {
-				options: {
-					outputStyle: 'compressed',
-					sassDir: '<%= workingPath() %>/_assets/scss/',
-					cssDir: '<%= workingPath() %>/_assets/css/'
-				}
-			}
-		},
-
 		uglify: {
 			compress: {
-				files: {
-					'<%= workingPath() %>/includes/JS/common.js': [
-						'<%= workingPath() %>/includes/js/jquery.js',
-						'<%= workingPath() %>/includes/js/jquery.tools.js',
-						'<%= workingPath() %>/includes/js/jquery.ba-postmessage.min.js',
-						'<%= workingPath() %>/includes/JS/main.js',
-						'<%= workingPath() %>/includes/JS/lib/deux/*.js'
-					]
-				},
+				files: [
+					{
+						src: [
+							'<%= workingPath() %>/includes/js/jquery.js',
+							'<%= workingPath() %>/includes/js/jquery.tools.js',
+							'<%= workingPath() %>/includes/js/jquery.ba-postmessage.min.js',
+							'<%= workingPath() %>/includes/js/main.js',
+							'<%= workingPath() %>/includes/js/lib/deux/*.js'
+						],
+						dest: '<%= workingPath() %>/includes/JS/common.js'
+					}
+				],
 				options: {
 					mangle: false,
 					sourceMap: true
@@ -92,6 +102,10 @@ module.exports = function (grunt) {
 		},
 
 		watch: {
+			options: {
+				livereload: true
+			},
+
 			scripts: {
 				files: [ '<%= jshint.all.src %>'],
 				tasks: ['jshint:single', 'uglify:compress'],
@@ -99,17 +113,24 @@ module.exports = function (grunt) {
 					spawn: false
 				}
 			},
-			sass: {
+			sass_assets: {
 				files: [
 					'<%= workingPath() %>/_assets/scss/*.scss',
-					//Excludes
-					'!<%= workingPath() %>/_assets/scss/_*.scss'
 				],
-				tasks: ['compass'],
+				tasks: ['compass:assets'],
 				options: {
 					spawn: false
 				}
-			}
+			},
+			sass_includes: {
+				files: [
+					'<%= workingPath() %>/includes/SASS/*.scss'
+				],
+				tasks: ['compass:includes'],
+				options: {
+					spawn: false
+				}
+			},
 		}
 	});
 	//prompt relies on grunt.servers, so it has to come seperate
@@ -151,12 +172,12 @@ module.exports = function (grunt) {
 		//grunt.log.write(grunt.template.process('<%= workingPath() %>'));
 	});
 
-	grunt.registerTask('default', ['compass:compress', 'uglify:compress', 'string-replace']);
+	grunt.registerTask('default', ['compass', 'uglify', 'string-replace']);
 
 	/*Select server after setup*/
 	if (grunt.config('servers').length > 1) {
 		grunt.task.run("prompt:serverPrompt");
-	} else if (grunt.config('servers').length == 0) {
+	} else if (grunt.config('servers').length === 0) {
 		grunt.fail.fatal("No connected servers to work with. Please connect to the servers and try again.");
 	}
 };
