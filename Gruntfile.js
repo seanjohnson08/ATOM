@@ -33,6 +33,10 @@ module.exports = function (grunt) {
         },
 
         jshint: {
+            options: {
+                reporter: require('jshint-stylish')
+            },
+
             all: {
                 src: [
                     '<%= workingPath() %>/*.js',
@@ -44,6 +48,8 @@ module.exports = function (grunt) {
 
                     //Excludes
                     '!<%= workingPath() %>/includes/JS/common.js',
+                    '!<%= workingPath() %>/_assets/js/libs/*.js',
+                    '!<%= workingPath() %>/**/*.min.js'
 
                 ],
                 options: {
@@ -89,8 +95,6 @@ module.exports = function (grunt) {
                         pattern: /url\(["']?.*?([^\/]*\.(jpg|png|gif))["']?\)/g,
 
                         replacement: function (match, filename, extension, offset, string) {
-                            var replacement;
-
                             // if the format is already correct, don't modify it
                             if (/fonts\/flex-slider-icon|^<%.*%>$/.test(match)) return match;
 
