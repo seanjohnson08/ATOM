@@ -1,14 +1,3 @@
-function crap() {
-    return 'test';
-}
-var crap = function() {
-    return 'test';
-};
-
-if (window.a == 5) {
-    console.log('test');
-}
-
 module.exports = function(grunt) {
     'use-strict';
 
@@ -59,6 +48,10 @@ module.exports = function(grunt) {
                     '<%= workingPath() %>/_assets/apps/**/js/*.js',
                     '<%= workingPath() %>/_assets/js/*.js',
                     '<%= workingPath() %>/_assets/js/**/*.js',
+
+                    //PE
+                    '<%= workingPath() %>/assets/www/js/*.js',
+                    '<%= workingPath() %>/assets/www/js/**/*.js',
 
                     //Excludes
                     '!<%= workingPath() %>/includes/JS/common.js',
@@ -230,7 +223,8 @@ module.exports = function(grunt) {
     grunt.event.on('watch', function(action, filepath) {
         var sass = {};
         sass[filepath.replace(/scss/g, 'css')] = filepath;
-
+        //clear console
+        console.log('\033[2J\033[;H');
         grunt.config('jshint.single.src', filepath);
         grunt.config('jscs.single.src', filepath);
         grunt.config('sass.single.files', sass);
