@@ -21,3 +21,11 @@ Duke Energy's Public site workflow. This script will:
 1. Run `grunt watch`.
 2. If multiple servers are connected, you will be prompted to select the servers you are working with.
 3. Start making changes. Any errors will appear in console for you to correct.
+
+
+###Other commands
+1. `grunt` - Runs task on the entire site. All SASS files are compiled into where they need to go, JS files are concatenated and minified.
+2. `grunt review` - Finds JS errors across entire site. Not recommended to use this until we get things cleaned up a bit more, or I change this to only look at the files you have changed.
+
+
+Please let me know if you find any issues, concerns, or suggestions.
