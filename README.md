@@ -1,6 +1,7 @@
 #ATOM
 
 Duke Energy's Public site workflow. This script will:
+
 1. Compile SASS files, using compass
 2. Concatentate JS files as needed
 3. Display JS errors, typos, and coding-style issues for you to correct.
