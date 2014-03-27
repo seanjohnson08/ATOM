@@ -10,13 +10,13 @@ Duke Energy's Public site workflow. This script will:
 ##Installation
 
 ###The tool
-1. Pull down this repo
-2. Run "npm install"
+1. Pull down this repo.
+2. Run `npm install` in the repo's directory.
 
 ###LiveReload (optional)
-1. Install the extension [here](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en)
+1. Install the extension [here](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en).
 
 ##Using the tool
-1. Run "grunt watch"
+1. Run `grunt watch`.
 2. If multiple servers are connected, you will be prompted to select the servers you are working with.
 3. Start making changes. Any errors will appear in console for you to correct.
