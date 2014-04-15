@@ -7,7 +7,7 @@ module.exports = function(grunt) {
                 gruntLogHeader: false,
                 questions: [{
                     config: 'servers',
-                    type: 'checkbox',
+                    type: 'list',
                     message: 'Choose the server(s) to work with:',
                     default: '-- no servers connected --',
                     choices: servers.map(function(server) {

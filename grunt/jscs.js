@@ -50,9 +50,17 @@ module.exports = {
         //disallowTrailingComma: true
     },
     all: {
-        src: ['<%= jshint.all.src %>']
-    },
-    single: {
-        src: ['<%= jshint.single.src %>']
-    }
+        src: [
+            'Gruntfile.js',
+            //PE
+            // '<%= workingPath.paths() %>/assets/www/js/*.js',
+            // '<%= workingPath.paths() %>/assets/www/js/**/*.js',
+            // '<%= workingPath.paths() %>/includes/js/common.js',
+            '<%= workingPath.paths() %>/includes/js/main02.js',
+            '<%= workingPath.paths() %>/includes/js/lib/deux/*.js',
+        ]
+    } //,
+    // single: {
+    //     src: ['<%= jshint.single.src %>']
+    // }
 };
