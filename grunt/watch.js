@@ -1,12 +1,19 @@
 module.exports = {
     options: {
-        livereload: 'true',
-        spawn: 'false'
+        // livereload: true,
+        spawn: false,
+        nospawn: true
     },
 
     scripts: {
         files: [ '<%= jshint.all.src %>'],
-        tasks: ['jshint:single', 'jscs:single', 'uglify:compress']
+        tasks: [
+            // 'newer:jshint:all',
+            // 'uglify:compress'
+            'concurrent'
+        //    'newer:jscs:all', 
+        //    'concurrent'
+        ]
     },
 
     sass_assets: {

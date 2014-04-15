@@ -2,6 +2,7 @@ module.exports = function(grunt) {
     'use-strict';
 
     // load all grunt-task plugins
+    require('time-grunt')(grunt);
     require('load-grunt-config')(grunt, {
         pkg: grunt.file.readJSON('package.json')
     });
@@ -12,7 +13,6 @@ module.exports = function(grunt) {
         sass[filepath.replace(/scss/g, 'css')] = filepath;
         //clear console
         console.log('\033[2J\033[;H');
-        grunt.config('jshint.single.src', filepath);
         grunt.config('jscs.single.src', filepath);
         grunt.config('sass.single.files', sass);
     });
