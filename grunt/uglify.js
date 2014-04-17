@@ -4,8 +4,7 @@ module.exports = {
             {
                 src: [
                     '<%= workingPath.paths() %>/includes/JS/jquery.js',
-                    '<%= workingPath.paths() %>/includes/JS/jquery.tools.js',
-                    '<%= workingPath.paths() %>/includes/JS/jquery.ba-postmessage.min.js',
+                    '<%= workingPath.paths() %>/includes/JS/lib/jquery.ba-postmessage.min.js',
                     '<%= workingPath.paths() %>/includes/JS/main02.js',
                     '<%= workingPath.paths() %>/includes/JS/lib/deux/*.js'
                 ],
@@ -13,6 +12,7 @@ module.exports = {
             }
         ],
         options: {
+            mangle: true,
             sourceMap: true,
             sourceMapIncludeSources: true,
             sourceMapName: '<%= workingPath.paths() %>/includes/JS/common.map.js'
