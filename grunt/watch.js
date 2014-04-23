@@ -9,7 +9,7 @@ module.exports = {
         files: [ '<%= jshint.all.src %>'],
         tasks: [
             // 'newer:jshint:all',
-            // 'uglify:compress'
+            //'uglify:compress'
             'concurrent'
         //    'newer:jscs:all', 
         //    'concurrent'
