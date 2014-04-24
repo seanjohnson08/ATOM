@@ -1,7 +1,7 @@
 module.exports = {
-    reddotParsing: {
+    reddot: {
         files: {
-            '<%= workingPath.paths() %>/includes/CSS/default.reddot.css': '<%= workingPath() %>/includes/CSS/default.css'
+            '<%= workingPath.paths() %>/includes/CSS/default.reddot.css': '<%= workingPath.paths() %>/includes/CSS/default.css'
         },
         options: {
             replacements: [{

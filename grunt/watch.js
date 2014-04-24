@@ -1,6 +1,6 @@
 module.exports = {
     options: {
-        // livereload: true,
+        livereload: true,
         spawn: false,
         nospawn: true
     },
@@ -8,11 +8,9 @@ module.exports = {
     scripts: {
         files: [ '<%= jshint.all.src %>'],
         tasks: [
-            // 'newer:jshint:all',
-            //'uglify:compress'
-            'concurrent'
-        //    'newer:jscs:all', 
-        //    'concurrent'
+            'jshint:watch',
+            'jscs:watch',
+            'uglify:compress'
         ]
     },
 
@@ -24,8 +22,9 @@ module.exports = {
     },
     sass_includes: {
         files: [
-            '<%= workingPath.paths() %>/includes/SASS/*.scss'
+            '<%= workingPath.paths() %>/includes/CSS/sass/*.scss',
+            '<%= workingPath.paths() %>/includes/CSS/sass/**/*.scss'
         ],
-        tasks: ['compass:includes']
+        tasks: ['compass:includes', 'string-replace:reddot']
     }
 };

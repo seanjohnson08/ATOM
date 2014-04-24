@@ -10,17 +10,20 @@ module.exports = function(grunt) {
     // events
     grunt.event.on('watch', function(action, filepath) {
         var sass = {};
-        sass[filepath.replace(/scss/g, 'css')] = filepath;
+        grunt.watch = {file: filepath};
         //clear console
         console.log('\033[2J\033[;H');
-        grunt.config('jscs.single.src', filepath);
-        grunt.config('sass.single.files', sass);
     });
 
     /* grunt tasks */
     grunt.registerTask('review', ['jshint:all']);
 
-    grunt.registerTask('default', ['compass', 'uglify', 'string-replace']);
+    grunt.registerTask('listen', function(){
+        grunt.config("compass.includes.options.watch", true);
+        grunt.task.run("concurrent");
+    });
+
+    grunt.registerTask('default', ['compass:assets', 'uglify:compress', 'string-replace:reddot']);
 
     /*Select server after setup*/
 

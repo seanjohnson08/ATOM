@@ -1,6 +1,8 @@
 module.exports = {
-    first: [
-    //    'newer:jshint:all', 
-        'uglify:compress'
-    ] 
+    target1: {
+        tasks: ['watch', 'compass:includes'],
+        options: {
+            logConcurrentOutput: true
+        }
+    }
 };
