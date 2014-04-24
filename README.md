@@ -13,12 +13,19 @@ Duke Energy's Public site workflow. This script will:
 ###The tool
 1. Pull down this repo.
 2. Run `npm install` in the repo's directory.
+3. If you don't already have it, install the latest alpha version of compass. `gem install compass --pre`
 
 ###LiveReload (optional)
 1. Install the extension [here](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en).
 
+###Setting up workspaces (optional, but highly recommended)
+1. Open Developer tools
+2. Cog/Workspace/Add folder - Add the "includes" directory from your server. Click "Allow".
+3. Go to the Sources tab in inspector, right click on any JS/CSS file and click "Map to File System Resource"
+4. Press enter, the entire includes directory should now be mapped.
+
 ##Using the tool
-1. Run `grunt watch`.
+1. Run `grunt listen`.
 2. If multiple servers are connected, you will be prompted to select the servers you are working with.
 3. Start making changes. Any errors will appear in console for you to correct.
 
