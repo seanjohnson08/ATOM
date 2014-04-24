@@ -23,7 +23,7 @@ module.exports = function(grunt) {
         grunt.task.run("concurrent");
     });
 
-    grunt.registerTask('default', ['compass:assets', 'uglify:compress', 'string-replace:reddot']);
+    grunt.registerTask('default', ['compass', 'uglify:compress', 'string-replace:reddot']);
 
     /*Select server after setup*/
 

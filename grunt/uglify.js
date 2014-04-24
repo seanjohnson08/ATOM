@@ -6,7 +6,7 @@ module.exports = {
                     '<%= workingPath.paths() %>/includes/JS/jquery.js',
                     '<%= workingPath.paths() %>/includes/JS/lib/jquery.ba-postmessage.min.js',
                     '<%= workingPath.paths() %>/includes/JS/main02.js',
-                    '<%= workingPath.paths() %>/includes/JS/lib/deux/*.js'
+                    '<%= workingPath.paths() %>/includes/JS/deux/*.js'
                 ],
                 dest: '<%= workingPath.paths() %>/includes/JS/common.js'
             }

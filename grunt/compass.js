@@ -8,6 +8,7 @@ module.exports = {
     // },
     includes: {
         options: {
+            sourcemap: true,
             outputStyle: 'compressed',
             sassDir: '<%= workingPath.paths() %>/includes/CSS/sass/',
             cssDir: '<%= workingPath.paths() %>/includes/CSS/',
