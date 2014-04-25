@@ -8,7 +8,7 @@ module.exports = {
         src: [
             'Gruntfile.js',
             '<%= workingPath.paths() %>/includes/JS/lib/deux/*.js',
-            '<%= workingPath.paths() %>/includes/JS/main02.js'
+            '<%= workingPath.paths() %>/includes/JS/main.js'
 
         ],
         options: {
