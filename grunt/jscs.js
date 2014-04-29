@@ -16,7 +16,7 @@ module.exports = {
         requireMultipleVarDecl: true,
         requireBlocksOnNewline: true,
         disallowEmptyBlocks: true,
-        disallowDanglingUnderscores: true,
+        // disallowDanglingUnderscores: true,
         requireCommaBeforeLineBreak: true,
 
         requireOperatorBeforeLineBreak: '? + - / * = == === != !== > >= < <='.split(' '),

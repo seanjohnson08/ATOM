@@ -13,5 +13,13 @@ module.exports = {
             sassDir: '<%= workingPath.paths() %>/includes/CSS/sass/',
             cssDir: '<%= workingPath.paths() %>/includes/CSS/',
         }
+    },
+    clean: {
+        options: {
+            clean: true,
+            outputStyle: 'compressed',
+            sassDir: '<%= workingPath.paths() %>/includes/CSS/sass/',
+            cssDir: '<%= workingPath.paths() %>/includes/CSS/'
+        }
     }
 };
