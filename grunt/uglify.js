@@ -1,5 +1,5 @@
 module.exports = {
-    compress: {
+    'compress-www': {
         files: [
             {
                 src: [
@@ -23,6 +23,20 @@ module.exports = {
             sourceMap: true,
             // sourceMapIncludeSources: true,
             sourceMapName: '<%= workingPath.paths() %>/includes/JS/common.map.js'
+        }
+    },
+    'compress-pe': {
+        files: [
+            {
+                src: '<%= workingPath.paths() %>/assets/www/js/non-minified/pe-jquery.js',
+                dest: '<%= workingPath.paths() %>/assets/www/js/pe-jquery.js'
+            }
+        ],
+        options: {
+            mangle: {
+                except: ['jQuery']
+            },
+            sourceMap: true
         }
     }
 };
