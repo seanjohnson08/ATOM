@@ -13,7 +13,7 @@ Duke Energy's Public site workflow. This script will:
 ###The tool
 1. Pull down this repo.
 2. Run `npm install` in the repo's directory.
-3. If you don't already have it, install the latest alpha version of compass. `gem install compass --pre`
+3. If you don't already have it, install the latest alpha version of compass. `sudo gem install compass --pre --verbose`
 
 ###LiveReload (optional)
 1. Install the extension [here](https://chrome.google.com/webstore/detail/livereload/jnihajbhpnppcggbcgedagnkighmdlei?hl=en).
