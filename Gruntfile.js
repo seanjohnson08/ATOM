@@ -23,7 +23,8 @@ module.exports = function(grunt) {
         grunt.task.run('concurrent');
     });
 
-    grunt.registerTask('default', ['compass:includes', 'uglify:compress', 'string-replace:reddot']);
+
+    grunt.registerTask('test',[]);
 
     /*Select server after setup*/
 
@@ -34,4 +35,23 @@ module.exports = function(grunt) {
     } else if (servers.length === 0) {
         grunt.fail.fatal('No connected servers to work with. Please connect to the servers and try again.');
     }
+
+    // de or pe?
+    try {
+        var serverJSON = grunt.file.readJSON(grunt.template.process('<%= workingPath.paths() %>/server.json'));
+
+        switch (serverJSON.server) {
+            case "PE":
+                grunt.registerTask('default', ['uglify:compress-pe','cssmin:compress-pe']);
+            break;
+            case "www":
+            default:
+                grunt.registerTask('default', ['compass:includes', 'uglify:compress-www', 'string-replace:reddot']);
+            break;
+                
+        }
+    } catch(e) {
+        console.error('There was an error reading server.json: ' + e)
+    }
+
 };
