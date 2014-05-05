@@ -10,7 +10,6 @@ module.exports = {
                     '<%= workingPath.paths() %>/includes/JS/main.js',
                     '<%= workingPath.paths() %>/includes/JS/lib/*.js',
                     '<%= workingPath.paths() %>/includes/JS/lib/deux/*.js',
-                    '<%= workingPath.paths() %>/includes/JS/lib/deux/legacy.js',
                     //exclude
                     '!<%= workingPath.paths() %>/includes/JS/lib/jwplayer.html5.js'
                 ],

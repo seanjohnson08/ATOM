@@ -18,9 +18,9 @@ module.exports = function(grunt) {
     /* grunt tasks */
     grunt.registerTask('review', ['jshint:all']);
 
-    grunt.registerTask('listen', function(){
-        grunt.config("compass.includes.options.watch", true);
-        grunt.task.run("concurrent");
+    grunt.registerTask('listen', function() {
+        grunt.config('compass.includes.options.watch', true);
+        grunt.task.run('concurrent');
     });
 
     grunt.registerTask('default', ['compass:includes', 'uglify:compress', 'string-replace:reddot']);
