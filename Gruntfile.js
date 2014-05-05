@@ -37,16 +37,21 @@ module.exports = function(grunt) {
     }
 
     // de or pe?
-    var serverJSON = grunt.file.readJSON(grunt.template.process('<%= workingPath.paths() %>/server.json'));    
-    switch (serverJSON.server) {
-        case "PE":
-            grunt.registerTask('default', ['uglify:compress-pe']);
-        break;
-        case "www":
-        default:
-            grunt.registerTask('default', ['compass:includes', 'uglify:compress-www', 'string-replace:reddot']);
-        break;
-            
+    try {
+        var serverJSON = grunt.file.readJSON(grunt.template.process('<%= workingPath.paths() %>/server.json'));
+
+        switch (serverJSON.server) {
+            case "PE":
+                grunt.registerTask('default', ['uglify:compress-pe','cssmin:compress-pe']);
+            break;
+            case "www":
+            default:
+                grunt.registerTask('default', ['compass:includes', 'uglify:compress-www', 'string-replace:reddot']);
+            break;
+                
+        }
+    } catch(e) {
+        console.error('There was an error reading server.json: ' + e)
     }
 
 };
