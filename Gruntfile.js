@@ -1,6 +1,28 @@
 module.exports = function(grunt) {
     'use-strict';
 
+    workingPath = {
+        paths: function() {
+            var servers = grunt.file.expand({cwd: '/Volumes'}, '*.com');
+            return '/Volumes/' + (
+                servers.length > 1 ?
+                    '{' + servers.join(', ') + '}' :
+                    servers[0]
+            );
+        }
+    };
+
+    // de or pe?
+    try {
+        var serverJSON = grunt.file.readJSON(grunt.template.process('<%= workingPath.paths() %>/server.json'));
+
+        grunt.server = serverJSON.server;
+
+    } catch(e) {
+        console.error('There was an error reading server.json: ' + e);
+    }
+
+
     // load all grunt-task plugins
     require('time-grunt')(grunt);
     require('load-grunt-config')(grunt, {
@@ -17,14 +39,10 @@ module.exports = function(grunt) {
 
     /* grunt tasks */
     grunt.registerTask('review', ['jshint:all']);
-
     grunt.registerTask('listen', function() {
         grunt.config('compass.includes.options.watch', true);
         grunt.task.run('concurrent');
     });
-
-
-    grunt.registerTask('test',[]);
 
     /*Select server after setup*/
 
@@ -36,22 +54,15 @@ module.exports = function(grunt) {
         grunt.fail.fatal('No connected servers to work with. Please connect to the servers and try again.');
     }
 
-    // de or pe?
-    try {
-        var serverJSON = grunt.file.readJSON(grunt.template.process('<%= workingPath.paths() %>/server.json'));
-
-        switch (serverJSON.server) {
-            case "PE":
-                grunt.registerTask('default', ['uglify:compress-pe','cssmin:compress-pe']);
-            break;
-            case "www":
-            default:
-                grunt.registerTask('default', ['compass:includes', 'uglify:compress-www', 'string-replace:reddot']);
-            break;
-                
-        }
-    } catch(e) {
-        console.error('There was an error reading server.json: ' + e)
+    switch (grunt.server) {
+        case "PE":
+            grunt.registerTask('default', ['uglify:compress'/*,'cssmin:compress-pe'*/]);
+        break;
+        case "www":
+        default:
+            grunt.registerTask('default', ['compass:includes', 'uglify:compress-www', 'string-replace:reddot']);
+        break;
+            
     }
 
 };
