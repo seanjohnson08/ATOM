@@ -60,7 +60,7 @@ module.exports = function(grunt) {
         break;
         case "www":
         default:
-            grunt.registerTask('default', ['compass:includes', 'uglify:compress-www', 'string-replace:reddot']);
+            grunt.registerTask('default', ['compass:includes', 'uglify:compress', 'string-replace:reddot']);
         break;
             
     }
