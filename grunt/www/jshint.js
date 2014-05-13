@@ -7,11 +7,11 @@ module.exports = {
     all: {
         src: [
             'Gruntfile.js',
-            '<%= workingPath.paths() %>/includes/JS/*.js',
-            '<%= workingPath.paths() %>/includes/JS/**/*.js',
+            '<%= workingPath %>/includes/JS/*.js',
+            '<%= workingPath %>/includes/JS/**/*.js',
             //exclusions
-            '!<%= workingPath.paths() %>/includes/JS/*.min.js',
-            '!<%= workingPath.paths() %>/includes/JS/**/*.min.js',
+            '!<%= workingPath %>/includes/JS/*.min.js',
+            '!<%= workingPath %>/includes/JS/**/*.min.js',
         ],
         options: {
 

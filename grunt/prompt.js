@@ -6,12 +6,12 @@ module.exports = function(grunt) {
             options: {
                 gruntLogHeader: false,
                 questions: [{
-                    config: 'servers',
+                    config: 'workingPath',
                     type: 'list',
                     message: 'Choose the server to work with:',
                     default: '-- no servers connected --',
-                    choices: servers.map(function(server) {
-                        return {name: server};
+                    choices: servers.map(function(server_name) {
+                        return {name: '/Volumes/' + server_name + '/'};
                     }),
                     when: function() {
                         return servers.length > 1;
@@ -19,5 +19,5 @@ module.exports = function(grunt) {
                 }]
             }
         }
-    }
+    };
 };
