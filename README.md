@@ -33,7 +33,7 @@ Duke Energy's Public site workflow. This script will:
 
 ###Other commands
 1. `grunt` - Runs task on the entire site. All SASS files are compiled into where they need to go, JS files are concatenated and minified.
-2. `grunt review` - Finds JS errors across entire site. Not recommended to use this until we get things cleaned up a bit more, or I change this to only look at the files you have changed.
+2. ~~`grunt review` - Finds JS errors across entire site. Not recommended to use this until we get things cleaned up a bit more, or I change this to only look at the files you have changed.~~
 
 
 Please let me know if you find any issues, concerns, or suggestions.

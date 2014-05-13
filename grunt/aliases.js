@@ -1,4 +1,3 @@
-var loadGruntConfig = require('load-grunt-config');
 module.exports = function(grunt, options) {
     grunt.registerTask("determineserver", function() {
 
