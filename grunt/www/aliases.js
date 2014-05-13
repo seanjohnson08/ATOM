@@ -7,6 +7,6 @@ module.exports = function(grunt, options) {
 
     grunt.registerTask('listen', function() {
         grunt.config('compass.includes.options.watch', true);
-        grunt.task.run('concurrent');
+        grunt.task.run('parallel');
     });
 };

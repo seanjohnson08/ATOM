@@ -11,7 +11,7 @@ module.exports = function(grunt) {
                     message: 'Choose the server to work with:',
                     default: '-- no servers connected --',
                     choices: servers.map(function(server_name) {
-                        return {name: '/Volumes/' + server_name + '/'};
+                        return {name: '/Volumes/' + server_name};
                     }),
                     when: function() {
                         return servers.length > 1;

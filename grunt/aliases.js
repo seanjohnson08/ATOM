@@ -16,7 +16,7 @@ module.exports = function(grunt, options) {
                 grunt.config(name.substr(serverJSON.server.length + 1), cfg);
             });
         } catch(e) {
-            console.error('There was an error reading server.json: ' + e);
+            grunt.fail.fatal('There was an error reading server.json: ' + e);
         }
     });
 };
