@@ -5,7 +5,7 @@ module.exports = {
                 grunt: true, args:['watch', '--workingPath=<%= workingPath %>'],
             },
             {
-                grunt: true, args:['compass:includes', '--workingPath=<%= workingPath %>'],
+                grunt: true, args:['compass:includes-watch', '--workingPath=<%= workingPath %>'],
             }
         ],
         options: {

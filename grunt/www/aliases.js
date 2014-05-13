@@ -4,9 +4,8 @@ module.exports = function(grunt, options) {
         'uglify:compress',
         'string-replace:reddot'
     ]);
-
+    
     grunt.registerTask('listen', function() {
-        grunt.config('compass.includes.options.watch', true);
         grunt.task.run('parallel');
     });
 };

@@ -27,7 +27,7 @@ module.exports = function(grunt) {
             grunt.fail.fatal('No connected servers to work with. Please connect to the servers and try again.');
         }
     } else {
-        grunt.config("workingPath", grunt.option("workingPath"));
+        grunt.config('workingPath', grunt.option('workingPath'));
     }
 
     grunt.task.run('determineserver');

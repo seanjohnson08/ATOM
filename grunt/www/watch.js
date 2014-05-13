@@ -14,17 +14,10 @@ module.exports = {
         ]
     },
 
-    sass_assets: {
+    css: {
         files: [
-            '<%= workingPath %>/_assets/scss/*.scss',
+            '<%= workingPath %>/includes/CSS/default.css',
         ],
-        tasks: ['compass:assets']
-    },
-    sass_includes: {
-        files: [
-            '<%= workingPath %>/includes/CSS/sass/*.scss',
-            '<%= workingPath %>/includes/CSS/sass/**/*.scss'
-        ],
-        tasks: ['compass:includes', 'string-replace:reddot']
+        tasks: ['string-replace:reddot']
     }
 }
