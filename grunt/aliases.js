@@ -19,4 +19,12 @@ module.exports = function(grunt, options) {
             grunt.fail.fatal('There was an error reading server.json: ' + e);
         }
     });
+
+    //Clear screen whenever a new watch event is fired
+    grunt.event.on('watch', function(action, filepath) {
+        var sass = {};
+        grunt.watch = {file: filepath};
+        //clear console
+        console.log('\033[2J\033[;H');
+    });
 };

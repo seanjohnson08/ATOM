@@ -6,17 +6,7 @@ module.exports = function(grunt) {
     require('load-grunt-config')(grunt, {
         pkg: grunt.file.readJSON('package.json')
     });
-
-    grunt.config('workingPath', "what");
-
-    // events
-    grunt.event.on('watch', function(action, filepath) {
-        var sass = {};
-        grunt.watch = {file: filepath};
-        //clear console
-        console.log('\033[2J\033[;H');
-    });
-
+    
     /*Select server after setup*/
     if (!grunt.option('workingPath')) {
         var servers = grunt.file.expand({cwd: '/Volumes'}, '*.com');
@@ -25,6 +15,8 @@ module.exports = function(grunt) {
             grunt.task.run('prompt:serverPrompt');
         } else if (servers.length === 0) {
             grunt.fail.fatal('No connected servers to work with. Please connect to the servers and try again.');
+        } else {
+            grunt.config('workingPath', '/Volumes/' + servers[0]);
         }
     } else {
         grunt.config('workingPath', grunt.option('workingPath'));
