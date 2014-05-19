@@ -1,7 +1,12 @@
 module.exports = function(grunt, options) {
     grunt.registerTask('default', [
         'compass:includes',
-        'uglify:compress',
+        'uglify:compress'
+    ]);
+
+    grunt.registerTask('prod', [
+        'compass:includes',
+        'uglify:compress-prod',
         'string-replace:reddot'
     ]);
     

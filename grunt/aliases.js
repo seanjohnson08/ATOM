@@ -6,6 +6,7 @@ module.exports = function(grunt, options) {
     //the 'determineserver' task is run.
     grunt.registerTask('default', 'default');
     grunt.registerTask('listen', 'listen');
+    grunt.registerTask('prod', 'prod');
 
     grunt.registerTask('determineserver', function() {
 

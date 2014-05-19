@@ -1,3 +1,5 @@
+var extend = require("util")._extend;
+
 module.exports = {
     'compress': {
         files: [
@@ -26,3 +28,7 @@ module.exports = {
         }
     },
 };
+
+//Compress-prod configuration
+module.exports['compress-prod'] = extend({}, module.exports.compress);
+module.exports['compress-prod'].options.compress={drop_console:true};
