@@ -11,10 +11,17 @@ module.exports = function(grunt, options) {
 
         try {
             serverJSON = grunt.file.readJSON(grunt.config('workingPath') + '/server.json');
+
+            var dir = './grunt/' + serverJSON.server;
+
+            if (!grunt.file.exists(dir)) {
+                return grunt.fail.fatal("Invalid server configuration in server.json");
+            }
+
             console.log('You are working with: ' + serverJSON.server);
 
             //load config from server folder
-            grunt.file.expand('./grunt/' + serverJSON.server + '/*.js').map(function(file){
+            grunt.file.expand(dir + '/*.js').map(function(file){
                 var name = file.substr(8, file.length-11),
                     cfg = require('./' + name + '.js');
 
