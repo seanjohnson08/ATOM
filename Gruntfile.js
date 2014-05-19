@@ -24,7 +24,4 @@ module.exports = function(grunt) {
 
     grunt.task.run('determineserver');
 
-    grunt.registerTask('default', 'default');
-    grunt.registerTask('listen', 'listen');
-
 };

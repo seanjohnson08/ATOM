@@ -1,16 +1,24 @@
 module.exports = function(grunt, options) {
-    grunt.registerTask("determineserver", function() {
+
+    //These will create an infinite loop if not overwritten by
+    //something in the server/aliases.js file.
+    //However, these lines are necessary because the tasks need to be defined at runtime, before
+    //the 'determineserver' task is run.
+    grunt.registerTask('default', 'default');
+    grunt.registerTask('listen', 'listen');
+
+    grunt.registerTask('determineserver', function() {
 
         try {
             serverJSON = grunt.file.readJSON(grunt.config('workingPath') + '/server.json');
-            console.log("You are working with: " + serverJSON.server);
+            console.log('You are working with: ' + serverJSON.server);
 
             //load config from server folder
             grunt.file.expand('./grunt/' + serverJSON.server + '/*.js').map(function(file){
                 var name = file.substr(8, file.length-11),
                     cfg = require('./' + name + '.js');
 
-                if (typeof cfg == "function") {
+                if (typeof cfg == 'function') {
                     cfg = cfg(grunt, options);
                 }
                 grunt.config(name.substr(serverJSON.server.length + 1), cfg);
