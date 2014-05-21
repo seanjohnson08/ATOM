@@ -9,10 +9,8 @@ module.exports = {
                     '<%= workingPath %>/includes/JS/lib/jquery.ba-postmessage.min.js',
                     '<%= workingPath %>/includes/JS/main.js',
                     '<%= workingPath %>/includes/JS/lib/*.js',
-                    '<%= workingPath %>/includes/JS/lib/deux/*.js',
-                    //exclude
-                    '!<%= workingPath %>/includes/JS/lib/jwplayer.html5.js'
-                ],
+                    '<%= workingPath %>/includes/JS/lib/deux/*.js'
+                ],                ],
                 dest: '<%= workingPath %>/includes/JS/common.js'
             }
         ],
