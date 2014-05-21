@@ -1,5 +1,3 @@
-var extend = require("util")._extend;
-
 module.exports = {
     'compress': {
         files: [
