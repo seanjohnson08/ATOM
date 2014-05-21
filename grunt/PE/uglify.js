@@ -18,5 +18,6 @@ module.exports = {
 };
 
 //Compress-prod configuration
-module.exports['compress-prod'] = extend({}, module.exports.compress);
+//Create a copy of 'compress' but just change a few options
+module.exports['compress-prod'] = JSON.parse(JSON.stringify(module.exports['compress']));
 module.exports['compress-prod'].options.compress={drop_console:true};
