@@ -10,7 +10,7 @@ module.exports = {
                     '<%= workingPath %>/includes/JS/main.js',
                     '<%= workingPath %>/includes/JS/lib/*.js',
                     '<%= workingPath %>/includes/JS/lib/deux/*.js'
-                ],                ],
+                ],
                 dest: '<%= workingPath %>/includes/JS/common.js'
             }
         ],
