@@ -14,10 +14,9 @@ module.exports = {
         ]
     },
 
-    // css: {
-    //     files: [
-    //         '<%= workingPath %>/includes/CSS/default.css',
-    //     ],
-    //     tasks: ['string-replace:reddot']
-    // }
+    css: {
+        files: [
+            '<%= workingPath %>/includes/CSS/default.css',
+        ]
+    }
 };

@@ -7,7 +7,8 @@ module.exports = {
                     '<%= workingPath %>/includes/JS/lib/jquery.js',
                     '<%= workingPath %>/includes/JS/lib/jquery-migrate-1.2.1.js',
                     '<%= workingPath %>/includes/JS/lib/jquery.ba-postmessage.min.js',
-                    '<%= workingPath %>/includes/JS/main.js',
+                    '<%= workingPath %>/includes/JS/duke.js',
+                    '<%= workingPath %>/includes/JS/duke.*.js',
                     '<%= workingPath %>/includes/JS/lib/*.js',
                     '<%= workingPath %>/includes/JS/lib/deux/*.js'
                 ],
